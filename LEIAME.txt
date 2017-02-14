@@ -1,0 +1,9 @@
+MODUS - Gerenciamento de Telecentros
+
+Modus tem como objetivo permitir o gerenciamento das informações administrativas e 
+pedagógicas da Rede de Telecentros, como o cadastramento de usuários, registro das 
+visitas e cursos, além da emissão de relatórios gerenciais e estatísticos.
+
+Este sofware foi desenvolvido pela Companhia de Processamento de Dados dos Município
+de Porto Alegre (PROCEMPA). Para saber mais sobre o projeto visite o site
+http://sf.net/projects/modusgt/

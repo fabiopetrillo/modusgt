@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0+" codebase="http://lsisweb2/tdes/modus/jws" href="modus.jnlp">
+	<information>
+		<title>Modus - Gerenciador de Telecentros</title>
+		<vendor>Procempa (c)</vendor>
+		<homepage href="http://modusgt.sourceforge.net/index.html"/>
+		<description>Java Web Start Monitor de Estacao</description>
+		<description kind="short">Monitor de Estacao JWS</description>
+		<icon href="images/logo.jpg"/>
+		<offline-allowed/>
+	</information>
+
+	<security>
+   		<all-permissions/>
+	</security>
+
+	<resources>
+		<j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+  		<j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se"initial-heap-size="128" max-heap-size="512m" />
+		<jar href="modus.jar"/>
+
+		<jar href="lib/activation.jar"/>
+		<jar href="lib/commons-beanutils.jar"/>
+		<jar href="lib/commons-betwixt-0.7.jar"/>
+		<jar href="lib/commons-collections.jar"/>
+		<jar href="lib/commons-digester-1.7.jar"/>
+		<jar href="lib/commons-httpclient.jar"/>
+		<jar href="lib/commons-digester-1.7.jar"/>
+		<jar href="lib/commons-httpclient.jar"/>
+		<jar href="lib/commons-lang-2.1.jar"/>
+		<jar href="lib/commons-logging.jar"/>
+		<jar href="lib/concurrent.jar"/>
+		<jar href="lib/ejb3-persistence.jar"/>
+		<jar href="lib/forms-1.0.6.jar"/>
+		<jar href="lib/hibernate3.jar"/>
+		<jar href="lib/hibernate-annotations.jar"/>
+		<jar href="lib/hibernate-client.jar"/>
+		<jar href="lib/hibernate-ejb3-persistence.jar"/>
+		<jar href="lib/hibernate-entitymanager.jar"/>
+		<jar href="lib/hibernate-metadata.jar"/>
+		<jar href="lib/idw-gpl.jar"/>
+		<jar href="lib/jboss-annotations-ejb3.jar"/>
+		<jar href="lib/jboss-aop-jdk50.jar"/>
+		<jar href="lib/jboss-aspect-library-jdk50.jar"/>
+		<jar href="lib/jboss-client.jar"/>
+		<jar href="lib/jboss-common.jar"/>
+		<jar href="lib/jbosscx-client.jar"/>
+		<jar href="lib/jboss-ejb3-client.jar"/>
+		<jar href="lib/jboss-ejb3.jar"/>
+		<jar href="lib/jboss-ejb3x.jar"/>
+		<jar href="lib/jboss-j2ee.jar"/>
+		<jar href="lib/jboss-remoting.jar"/>
+		<jar href="lib/jboss-serialization.jar"/>
+		<jar href="lib/jbosssx-client.jar"/>
+		<jar href="lib/jboss-transaction-client.jar"/>
+		<jar href="lib/jnp-client.jar"/>
+		<jar href="lib/log4j-1.2.13.jar"/>
+
+		<jar href="lib/looks-2.0-rc.jar"/>
+		<jar href="lib/mail.jar"/>
+		<jar href="lib/swingx.jar"/>
+	</resources>
+	<application-desc main-class="br.com.procempa.modus.stationmonitor.StationMonitor"/>
+</jnlp>

@@ -1,0 +1,250 @@
+<?xml version="1.0"?>
+<!-- =========================================================================== 
+	 Companhia de Processamento de Dados do Município de Porto Alegre - PROCEMPA
+     Modus - Gerenciamento de Telecentros                                                                      
+     
+     Filename: $RCSfile: build.xml,v $     
+     Version:  $Revision: 1.1 $
+             $Date: 2006/04/26 01:39:12 $
+             $Author: fabiopetrillo $                                                          
+     =========================================================================== -->
+<project name="modus" default="default">
+	<description>
+    	Modus é um sistema de informação que tem como objetivo permitir o 
+    	gerenciamento das prestações de contas financeiras e de atividades da 
+    	Rede de Telecentros do Município de Porto Alegre. Ele possibilita também 
+    	o cadastramento dos usuários, monitores e coordenadores, bem como 
+    	as atividades programadas.
+    	
+    	Este build.xml tem como objetivo compilar as classes de negócio e persistentes, testá-las,
+    	criar o javadoc, empacotar em um arquivo .jar e disponibilizá-lo no servidor de teste.
+    </description>
+
+	<property file="build.properties" />
+	<property name="src.dir" value="${basedir}/src/java" />
+	<property name="resource.dir" value="${basedir}/recursos" />
+	<property name="session.dir" value="br/com/procempa/modus/session" />
+	<property name="entity.dir" value="br/com/procempa/modus/entity" />
+	<property name="services.dir" value="br/com/procempa/modus/services" />
+	<property name="synchronizer.dir" value="br/com/procempa/modus/synchronizer" />
+	<property name="utils.dir" value="br/com/procempa/modus/utils" />
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="build.javadoc" value="${build.dir}/javadoc" />
+	<property name="tests" value="${basedir}/src/tests" />
+	<property name="jar.name" value="modus.jar" />
+	<property name="client.name" value="modus-${version}.client.zip" />
+	<property name="source.name" value="modus-${version}.src.zip" />
+	<property name="shell.name" value="modus.sh" />
+	<property name="shell.conf.name" value="modus.conf" />
+	<property name="main.class" value="br.com.procempa.modus.Modus" />
+	<property name="ear.name" value="modus.ear" />
+	<property name="test.data.dir" value="${basedir}/JUnitReports" />
+
+	<!-- O classpath para construção do projeto -->
+	<path id="build.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="prepare">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${test.data.dir}" />
+	</target>
+
+	<target name="compile" depends="prepare" description="Compila as classes do projeto">
+		<mkdir dir="${build.dir}/classes"/>
+		<javac destdir="${build.dir}/classes" classpathref="build.classpath" optimize="true" debug="true">
+			<src path="${src.dir}" />
+		</javac>
+
+		<copy todir="${build.dir}/classes">
+			<fileset dir="${src.dir}">
+				<include name="**/*.properties" />
+				<include name="resources/" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="package-jar" depends="compile" description="Empacota todas as classe em um .jar">
+		<delete dir="${build.dir}/modus-${version}" />
+		<delete dir="${build.dir}/${client.name}" />
+		<delete file="${build.dir}/${jar.name}" />
+		<jar jarfile="${build.dir}/${jar.name}">
+			<fileset dir="${build.dir}/classes"/>
+		</jar>
+	</target>
+
+	<target name="package-client" depends="package-jar" description="Gera pacote para instalacao">
+		<delete dir="${build.dir}/modus-${version}" />
+		<delete file="${build.dir}/${client.name}"/>
+		<mkdir dir="${build.dir}/modus-${version}" />
+		<mkdir dir="${build.dir}/modus-${version}/lib" />
+		<copy todir="${build.dir}/modus-${version}" file="${build.dir}/${jar.name}" />
+		<copy todir="${build.dir}/modus-${version}" file="${resource.dir}/${shell.name}" />
+		<copy todir="${build.dir}/modus-${version}" file="${resource.dir}/${shell.conf.name}" />
+		<copy todir="${build.dir}/modus-${version}" file="${resource.dir}/sm.sh" />
+		<copy todir="${build.dir}/modus-${version}" file="${resource.dir}/modus.bat" />
+		<copy todir="${build.dir}/modus-${version}" file="${resource.dir}/sm.bat" />
+		<copy todir="${build.dir}/modus-${version}" file="${resource.dir}/path.bat" />
+		<copy todir="${build.dir}/modus-${version}/jre1.6.0-linux">
+			<fileset dir="${resource.dir}/jre/jre1.6.0-linux"/>
+		</copy>
+		<copy todir="${build.dir}/modus-${version}/jre1.6.0-win32">
+			<fileset dir="${resource.dir}/jre/jre1.6.0-win32"/>
+		</copy>
+		<copy todir="${build.dir}/modus-${version}" file="${resource.dir}/path.bat" />
+		<copy todir="${build.dir}/modus-${version}" file="${basedir}/license.txt" />
+		<copy todir="${build.dir}/modus-${version}" file="${basedir}/changelog.txt" />
+		<copy todir="${build.dir}/modus-${version}" file="${basedir}/LEIAME.txt" />
+		<copy todir="${build.dir}/modus-${version}" file="${src.dir}/resources/icons/modus.png" />
+		<copy todir="${build.dir}/modus-${version}/lib">
+			<fileset dir="${lib.dir}" includes="*.jar" excludes="junit.jar" />
+		</copy>
+		
+		<chmod dir="${build.dir}/modus-${version}/jre1.6.0-linux/bin" perm="ugo+x" includes="**/*"/>		
+		<chmod dir="${build.dir}/modus-${version}" perm="ugo+x" includes="**/*.sh"/>		
+		<chmod dir="${build.dir}/modus-${version}" perm="ug+w" includes="**/*.sh"/>		
+		<chmod dir="${build.dir}/modus-${version}" perm="ug+w" includes="**/*.conf"/>		
+	</target>
+
+	<target name="zip-client" depends="package-client" description="Compacta o pacote do cliente">
+		<delete file="${build.dir}/${jar.name}"/>
+		<zip destfile="${build.dir}/${client.name}">
+			<fileset dir="${build.dir}">
+				<exclude name="classes/" />
+				<exclude name="${build.dir}/${jar.name}"/>
+			</fileset>
+		</zip>
+	</target>	
+	
+	<target name="package-src" depends="package-jar" description="Gera pacote dos fontes do projeto">
+		<delete dir="${build.dir}" />
+		<delete dir="${test.data.dir}" />
+		
+		<zip destfile="${basedir}/${source.name}" excludesfile="${basedir}/modusKeystore">
+			<fileset dir="${basedir}"/>
+		</zip>
+	</target>
+
+	<target name="run" depends="package-jar" description="Roda o projeto">
+		<java classname="${main.class}" fork="true" classpathref="build.classpath">
+			<classpath>
+				<fileset dir="${build.dir}">
+					<include name="${jar.name}" />
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!-- Package all the non-persistence EJB classes -->
+	<target name="package-ejb3" depends="compile">
+		<jar jarfile="${build.dir}/beans.jar">
+			<fileset dir="${build.dir}/classes">
+				<include name="${session.dir}/**" />
+				<include name="*.properties" />
+				<include name="${entity.dir}/**" />				
+				<include name="${services.dir}/**" />	
+				<include name="${utils.dir}/**" />
+			</fileset>
+
+			<metainf dir="${resource.dir}/persistence">
+				<include name="persistence.xml" />
+			</metainf>
+		</jar>
+	</target>
+	
+	<target name="package-synchronizer" depends="compile,package-ejb3">
+		<jar jarfile="${build.dir}/synchronizer.sar">
+			<fileset dir="${build.dir}/classes/">
+				<include name="${synchronizer.dir}/**" />
+			</fileset>
+
+			<fileset dir="${lib.dir}">
+				<include name="commons-lang-2.1.jar" />
+			</fileset>
+
+			<metainf dir="${resource.dir}/synchronizer">
+				<include name="jboss-service.xml" />
+			</metainf>
+		</jar>
+		
+	</target>
+	
+	<target name="deploy-synchronizer" depends="package-synchronizer">
+		<copy todir="${deploy.dir}">
+			<fileset dir="${build.dir}">
+				<include name="synchronizer.sar"/>
+			</fileset>
+		</copy>
+	</target>	
+	
+
+	<!-- Cria um aquivo ear contendo todos os módulos
+	     descritos em application.xml. -->
+	<target name="assemble-app" depends="package-ejb3,package-synchronizer">
+		<jar jarfile="${build.dir}/${ear.name}">
+			<fileset dir="${build.dir}" includes="beans.jar" />
+			<fileset dir="${build.dir}" includes="synchronizer.sar" />
+
+			<metainf dir="${resource.dir}">
+				<include name="application.xml" />
+				<include name="jboss-app.xml" />
+			</metainf>
+		</jar>
+	</target>
+
+	<target name="deploy-modus" depends="assemble-app">
+		<copy file="${build.dir}/${ear.name}" todir="${deploy.dir}" />
+	</target>
+	
+	<target name="javadocs" depends="compile" description="Gera o javadoc">
+		<mkdir dir="${build.javadoc}" />
+		<javadoc sourcepath="${src.dir}" destdir="${build.javadoc}" author="true" version="true" windowtitle="Modus API">
+
+			<fileset dir="${src.dir}" defaultexcludes="yes">
+				<include name="**/*.java" />
+			</fileset>
+
+			<classpath refid="build.classpath" />
+		</javadoc>
+	</target>
+
+
+	<!-- Importate: para que este alvo funcione, coloque o junit no
+         classpath do ant. -->
+	<target name="tests" depends="compile" description="Testes automáticos (JUnit)">
+		<junit printsummary="true" fork="yes" haltonfailure="no" errorproperty="test.failed" failureproperty="test.failed">
+			<classpath>
+				<pathelement location="${build.dir}/${jar.name}" />
+			</classpath>
+
+			<formatter type="plain" usefile="false" />
+			<formatter type="xml" />
+			<batchtest todir="${test.data.dir}">
+				<fileset dir="${build.dir}" includes="**/*Test.class" />
+			</batchtest>
+		</junit>
+
+		<junitreport todir="${test.data.dir}">
+			<fileset dir="${test.data.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${test.data.dir}" />
+		</junitreport>
+
+		<fail message="Falha na execução dos testes. Verifique o log/relatório." if="test.failed" />
+	</target>
+
+	<target name="clean">
+		<delete file="${workweb.dir}" />
+		<delete file="${build.dir}" />
+	</target>
+
+	<target name="default" depends="prepare" description="Alvo Padrão">
+		<antcall target="clean" />
+		<antcall target="deploy" />
+	</target>
+</project>

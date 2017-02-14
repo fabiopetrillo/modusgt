@@ -1,0 +1,99 @@
+Modus Change Log
+=============================
+
+Modus 0.0.08 (2006-08-17)
+----------------------------------- -
+
+- log4j.properties
+	- rootLogger para info
+- Modus.java 
+	Inicializacao de CursoSearch na thread de inicial
+- Curso
+	Inclusao do campo transiente VagasDisponiveis
+- Equipamento
+	Inclusao do campo disponivel
+- Telecentro
+	Inclusao do campo encerramentoAutomatico
+- EquipamentoDataService
+	- Controle de remocao de equipamento
+	- Inclusao do metodo temVisita
+	- Inclusao do metodo getRotulo
+- InscricaoDataService
+	- Validacao se ja inscrito
+- TurmaDataServices
+	- Inclusao do metodo getVagasDisponveis
+- UsuarioJaInscritoException
+	- Exception para validacao de usuario ja inscrito em turma
+- StationMonitor
+	- Uso de rotulo
+- CursoSearch
+	- Adicao da coluna Vagas Disponiveis
+- CursoTableModel
+	- Adicao da coluna Vagas Disponiveis
+- IncricaoView
+	- Validacao se ja inscrito
+- EquipamentoForm
+	- Inclusao do check disponivel
+- TelecentroForm
+	- Inclusao do check encerramentoAutomatico
+- VisitaAtivaView
+	- Encerramento em funcao do UserContext
+- VisitaSearch
+	- Correcao no acento da rotulo inicio
+- EquipamentoDataServicesTest e TurmaDataServicesTest
+	- Testes dos novos metodos
+
+Modus 0.0.07 (2006-08-10)
+-----------------------------------
+
+- Implementação do módulo de cursos
+	- Cursos
+	- Conteúdos
+	- Turmas
+	- Encontros
+	- Inscrição
+	- Lista de Presença
+- Expansão da tab com duplo click
+- Campos lob em textos grandes
+
+Modus 0.0.06 (2006-08-07)
+-----------------------------------
+- Cache de usuários
+- Encerramento automático da visita
+- Início do módulo de Cursos
+- Refatoracao nas telas de pesquisa
+  usando o componente JXTaskPane
+
+Modus 0.0.05 (2006-06-17)
+-----------------------------------
+- Lista de espera no registro de visitas
+- Controlador de estação
+- Correção de bugs
+- Melhorias de desempenho
+
+Modus 0.0.04 (2006-06-09)
+-----------------------------------
+- Inclusão do log4j
+- Novos ícones e figuras
+- Correção de bugs
+- Melhorias de desempenho
+
+Modus 0.0.03 (2006-05-18)
+-----------------------------------
+- Duplo click nas lista
+- Correção do bug na apresentação das vistas ativas
+- Correções de pequenos bugs
+- Criação de target para criação do cliente e src Modus
+
+
+Modus 0.0.02 (2006-04-25)
+-----------------------------------
+- Inclusão do cadastro de equipamentos
+
+Modus 0.0.01 (2006-04-21)
+-----------------------------------
+- Publicado no Código Livre
+- Cadastro de Usuários
+- Registro de Visita
+- Monitor de Visitas Ativas
+- Cadastro de Telecentro (somente tela de pesquisa)

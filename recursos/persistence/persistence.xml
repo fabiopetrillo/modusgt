@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<persistence>
+  <persistence-unit name="modus">
+    <jta-data-source>java:/ModusDS</jta-data-source>
+    
+    <properties>
+        <property name="hibernate.hbm2ddl.auto" value="update"/>
+        <property name="hibernate.show_sql" value="false" />
+        <property name="hibernate.dialect"  value="org.hibernate.dialect.MySQLInnoDBDialect" />
+    </properties>
+  </persistence-unit>
+</persistence>

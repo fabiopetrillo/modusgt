@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<datasources>
+    <local-tx-datasource>
+        <jndi-name>ModusDS</jndi-name>
+        <connection-url>jdbc:mysql://$server:3306/$nome_do_banco</connection-url>
+        <driver-class>com.mysql.jdbc.Driver</driver-class>
+        <user-name>$user_name</user-name>
+        <password>$password</password>
+        <metadata>
+            <type-mapping>mySQL</type-mapping>
+        </metadata>
+    </local-tx-datasource>
+</datasources>
